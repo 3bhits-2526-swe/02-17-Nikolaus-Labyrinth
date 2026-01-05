@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     //private int points = 0; //points the player collects
     //array with items of player 
-
+    //sike
     
 
     private bool Jump(float deltaTime)
