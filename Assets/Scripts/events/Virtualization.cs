@@ -19,10 +19,13 @@ public class Virtualization : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    float deltaTime = 0f; 
+    float totPassedTime = 0f; 
     void Update()
     {
         //updates the virtualization zone every few seconds
+        deltaTime = Time.deltaTime; 
+        totPassedTime += deltaTime; 
     }
     
 }

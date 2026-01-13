@@ -1,3 +1,11 @@
+/*
+    this script manages the santa event, which circles over the map and waits to do something 
+
+    @author: wek56ur@gmail.com
+    @date: 2026-01-08
+
+*/
+
 using UnityEngine;
 
 public class santas : MonoBehaviour

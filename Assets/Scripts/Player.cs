@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-
+    
     InputAction moveUp; 
     InputAction moveDown; 
     InputAction moveRight; 
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float playerSpeed; //speed
     [SerializeField] public bool isTurn = true; 
 
-    private float jumpTime = 1; 
+    private float jumpTime = .5f; 
     private float timer = 0; 
 
     //private int points = 0; //points the player collects
@@ -72,6 +72,20 @@ public class Player : MonoBehaviour
         return false;         
     }
 
+    private void Teleport(float deltaTime)
+    {
+        if (timer <= 0)
+        {
+            transform.Translate(direction); 
+            timer = jumpTime; 
+            direction = Vector3.zero; 
+        }
+        else
+        {
+            timer -= deltaTime; 
+        }
+    }
+
     void Start()
     {
         //UnityEngine.SceneManagement.SceneManager.LoadScene("GUI"); 
@@ -88,22 +102,22 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        Jump(Time.deltaTime);
+        Teleport(Time.deltaTime);
         if (moveUp.ReadValue<float>() > 0 & direction == Vector3.zero)
         {
-            direction = Vector3.up * 10;     // (0,0,1)
+            direction = Vector3.forward;     // (0,0,1)
         }
         if (moveDown.ReadValue<float>() > 0 & direction == Vector3.zero)
         {
-            direction = Vector3.back * 10;   // (0,0,-1)
+            direction = Vector3.back;   // (0,0,-1)
         }
         if (moveRight.ReadValue<float>() > 0 & direction == Vector3.zero)
         {
-            direction = Vector3.right * 10;  // (1,0,0)
+            direction = Vector3.right;  // (1,0,0)
         }
         if (moveLeft.ReadValue<float>() > 0 & direction == Vector3.zero)
         {
-            direction = Vector3.left * 10;   // (-1,0,0)
+            direction = Vector3.left;   // (-1,0,0)
         }
 
     }

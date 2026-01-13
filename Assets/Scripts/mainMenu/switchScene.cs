@@ -1,15 +1,19 @@
+/*
+    scene switcher
+
+    @author: wek56ur@gmail.com
+    @date: 2026-01-08
+
+*/
+
 using UnityEngine;
-using System;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement; 
 
 public class switchScene : MonoBehaviour
 {
     public void GoToScene(string scene)
     {
-        //load singlePlayerScene
+        //maybe add some effect while changing scene
         SceneManager.LoadScene(scene);
     }   
 }
