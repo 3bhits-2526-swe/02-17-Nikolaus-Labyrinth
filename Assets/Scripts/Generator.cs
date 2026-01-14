@@ -27,6 +27,9 @@ public class Generator : MonoBehaviour
 
     void Start()
     {
+        //for testing purposes
+        testGenerate();
+
         generatePath(0);     
     }
 
@@ -59,7 +62,7 @@ public class Generator : MonoBehaviour
         int startX = (int) start.transform.position.x;
         int startZ = (int) start.transform.position.z;
 
-        Vector3 pos = new Vector3(startX, fix, startZ); 
+        //Vector3 pos = new Vector3(startX, fix, startZ); 
         //first pos -> place obj and then move random step (width of obj)
 
         //Instantiate(originalObject);
@@ -87,5 +90,26 @@ public class Generator : MonoBehaviour
         
     }
  
-    
+    private void testGenerate()
+    {
+        //TEST COMPLETE: PASSED
+        float steps = 10; 
+
+        float posX = start.transform.position.x; 
+        float posY = start.transform.position.y; 
+        float posZ = start.transform.position.z; 
+
+        float incX = (finish.transform.position.x - start.transform.position.x) / steps;
+        float incY = (finish.transform.position.y - start.transform.position.y)/steps;
+        float incZ = (finish.transform.position.z - start.transform.position.z)/steps;
+        
+        for(int i = 0; i <= steps; i++)
+        {
+            Instantiate(tile, new Vector3(posX, posY, posZ), Quaternion.Euler(0f, 0f, 0f));
+            posX += incX; 
+            posY += incY;
+            posZ += incZ; 
+        }
+
+    }
 }
