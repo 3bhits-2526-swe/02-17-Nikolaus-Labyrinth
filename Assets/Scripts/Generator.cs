@@ -25,6 +25,7 @@ public class Generator : MonoBehaviour
 
     [SerializeField] GameObject start; //beginning of path
 
+
     void Start()
     {
         //for testing purposes
@@ -116,98 +117,102 @@ public class Generator : MonoBehaviour
 
     private void testGemini()
     {
-    UnityEngine.Random.InitState(12);
-    int width = 21; 
-    int height = 21; 
-    
-    if (width % 2 == 0) 
-        width++;
-    if (height % 2 == 0) 
-        height++;
+        UnityEngine.Random.InitState(12);
+        int width = 21; 
+        int height = 21; 
+        
+        if (width % 2 == 0) 
+            width++;
+        if (height % 2 == 0) 
+            height++;
 
-    // Initialize grid with Walls (1)
-    int [,] mazeGrid = new int[width, height];
-    for (int x = 0; x < width; x++)
-    {
-        for (int y = 0; y < height; y++)
+        // Initialize grid with Walls (1)
+        int [,] mazeGrid = new int[width, height];
+        for (int x = 0; x < width; x++)
         {
-            mazeGrid[x, y] = 1;
-        }
-    }
-
-        // Recursive Backtracker Data
-    Stack<Vector2Int> stack = new Stack<Vector2Int>();
-    
-    // Start at (1, 1)
-    Vector2Int startPos = new Vector2Int(1, 1);
-    mazeGrid[startPos.x, startPos.y] = 0;
-    stack.Push(startPos);
-
-    while (stack.Count > 0)
-    {
-        Vector2Int current = stack.Peek();
-        List<Vector2Int> neighbors = GetUnvisitedNeighbors(current);
-
-        if (neighbors.Count > 0)
-        {
-            // 1. Choose random neighbor
-            Vector2Int chosen = neighbors[UnityEngine.Random.Range(0, neighbors.Count)];
-
-            // 2. Remove the wall between current and chosen
-            // We are jumping 2 steps, so the wall is at the midpoint
-            Vector2Int wallPos = current + (chosen - current) / 2;
-            mazeGrid[wallPos.x, wallPos.y] = 0;
-
-            // 3. Mark chosen neighbor as floor
-            mazeGrid[chosen.x, chosen.y] = 0;
-
-            // 4. Push chosen to stack
-            stack.Push(chosen);
-        }
-        else
-        {
-            // Dead end -> Backtrack
-            stack.Pop();
-        }
-    }
-
-
-    List<Vector2Int> GetUnvisitedNeighbors(Vector2Int p)
-    {
-        List<Vector2Int> list = new List<Vector2Int>();
-
-        // Check Up, Down, Left, Right (2 steps away)
-        Vector2Int[] directions = { Vector2Int.up * 2, Vector2Int.down * 2, Vector2Int.left * 2, Vector2Int.right * 2 };
-
-        foreach (var dir in directions)
-        {
-            Vector2Int neighbor = p + dir;
-
-            // Check bounds (ensure we don't go off the grid)
-            if (neighbor.x > 0 && neighbor.x < width - 1 && neighbor.y > 0 && neighbor.y < height - 1)
+            for (int y = 0; y < height; y++)
             {
-                // If it's a Wall (1), it hasn't been visited as a path yet
-                if (mazeGrid[neighbor.x, neighbor.y] == 1)
-                {
-                    list.Add(neighbor);
-                }
+                mazeGrid[x, y] = 1;
             }
         }
-        return list;
-    }
 
-    
-    
-    // Loop through the array and instantiate prefabs
-    for (int x = 0; x < width; x++)
-    {
-        for (int y = 0; y < height; y++)
+            // Recursive Backtracker Data
+        Stack<Vector2Int> stack = new Stack<Vector2Int>();
+        // Start at (1, 1)
+        Vector2Int startPos = new Vector2Int(1, 1);
+        mazeGrid[startPos.x, startPos.y] = 0;
+        stack.Push(startPos);
+
+        while (stack.Count > 0)
         {
-            Vector3 pos = new Vector3(x, 0, y);
-            GameObject prefab = (mazeGrid[x, y] == 1) ? tile : wall4;
-            
-            Instantiate(prefab, pos, Quaternion.identity);
+            Vector2Int current = stack.Peek();
+            List<Vector2Int> neighbors = GetUnvisitedNeighbors(current);
+
+            if (neighbors.Count > 0)
+            {
+                // 1. Choose random neighbor
+                Vector2Int chosen = neighbors[UnityEngine.Random.Range(0, neighbors.Count)];
+
+                // 2. Remove the wall between current and chosen
+                // We are jumping 2 steps, so the wall is at the midpoint
+                Vector2Int wallPos = current + (chosen - current) / 2;
+                mazeGrid[wallPos.x, wallPos.y] = 0;
+
+                // 3. Mark chosen neighbor as floor
+                mazeGrid[chosen.x, chosen.y] = 0;
+
+                // 4. Push chosen to stack
+                stack.Push(chosen);
+            }
+            else
+            {
+                // Dead end -> Backtrack
+                stack.Pop();
+            }
+        }
+
+        List<Vector2Int> GetUnvisitedNeighbors(Vector2Int p)
+        {
+            List<Vector2Int> list = new List<Vector2Int>();
+
+            // Check Up, Down, Left, Right (2 steps away)
+            Vector2Int[] directions = { Vector2Int.up * 2, Vector2Int.down * 2, Vector2Int.left * 2, Vector2Int.right * 2 };
+
+            foreach (var dir in directions)
+            {
+                Vector2Int neighbor = p + dir;
+
+                // Check bounds (ensure we don't go off the grid)
+                if (neighbor.x > 0 && neighbor.x < width - 1 && neighbor.y > 0 && neighbor.y < height - 1)
+                {
+                    // If it's a Wall (1), it hasn't been visited as a path yet
+                    if (mazeGrid[neighbor.x, neighbor.y] == 1)
+                    {
+                        list.Add(neighbor);
+                    }
+                }
+            }
+            return list;
+        }
+
+        
+        
+        // Loop through the array and instantiate prefabs
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector3 pos = new Vector3(x, 0, y);
+                GameObject prefab = (mazeGrid[x, y] == 1) ? tile : wall4;
+                //add isVirtualization param after creation (default false)
+                
+                Instantiate(prefab, pos, Quaternion.identity);
+            }
         }
     }
+
+    void gen2d()
+    {
+        
     }
 }

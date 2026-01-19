@@ -6,26 +6,39 @@
 
 */
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Virtualization : MonoBehaviour
 {
 
     // takes in generated map and updates material of tiles in zone
+    private float range = 5f; 
+    float totPassedTime = 0f; 
 
 
     void Start()
     {
+
+    }
+
+    
+    
+    void Update()
+    {
+       //updates the virtualization zone every few seconds
+        
+        totPassedTime += Time.deltaTime; 
+    }
+
+    private void checkForNearbies()
+    {
         
     }
 
-    float deltaTime = 0f; 
-    float totPassedTime = 0f; 
-    void Update()
+    private void applyVirtualization(List<GameObject> ls)
     {
-        //updates the virtualization zone every few seconds
-        deltaTime = Time.deltaTime; 
-        totPassedTime += deltaTime; 
+        
     }
     
 }
